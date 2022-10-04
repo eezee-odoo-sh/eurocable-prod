@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="form_attachments_wizard" model="ir.ui.view">
+            <field name="name">ir.attachment.wizard.form</field>
+            <field name="model">ir.attachment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Attachments center wizard setup">
+                    <sheet>
+                        <group>
+                            <field name="count_directories" />
+                            <field name="attachments_in_directory" />
+                        </group>
+                        <button name="create_categories" type="object"
+                        string="1.Create categories by models" class="btn-secondary"/>
+                        <button name="link_attachments_model" type="object"
+                        string="2.Linked categories to exist attachments" class="btn-secondary"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_attachments_wizard" model="ir.actions.act_window">
+            <field name="name">Attachments center wizard</field>
+            <field name="res_model">ir.attachment.wizard</field>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+        <record id="action_download_zip" model="ir.actions.server">
+            <field name="name">Download zip</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="base.model_ir_attachment" />
+            <field name="binding_model_id" ref="base.model_ir_attachment" />
+            <field name="state">code</field>
+            <field name="code"> action = env['ir.attachment'].browse(records.ids).download_filter()</field>
+        </record>
+    </data>
+</odoo>

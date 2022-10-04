@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mail.AttachmentQrcodeDialog" owl="1">
+        <Dialog contentClass="'o_AttachmentQrcodeDialog'" title="getTitle()" size="'large'" t-ref="dialog">
+            <p class="o_AttachmentQrcodeDialog_mainText" t-esc="getBody()"/>
+            	<h1>Filename: <t t-esc="attachment.name"/></h1>
+        		<div style="margin: auto;width: max-content;" t-ref="qrcode"></div>
+            <t t-set-slot="buttons">
+                <button class="o_AttachmentQrcodeDialog_cancelButton btn btn-secondary" t-on-click="_onClickCancel">Ok</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

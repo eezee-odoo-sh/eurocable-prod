@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_attachments_manager" model="ir.ui.view">
+        <field name="name">res.config.settings.view.attachments.manager</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='module_auth_oauth']" position="before">
+                    <div id="attachments_manager">
+                        <h2>Attachments Manager</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Interface settings</span>
+                                    <div class="text-muted">
+                                        You can show/hide buttons/blocks
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_kanban_info" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_kanban_info"/>
+                                    </div>
+                                    <!-- <div class="content-group mt16">
+                                        <label for="am_menu_type" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_menu_type"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_uppy" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_uppy"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_favorite" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_favorite"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_download_all" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_download_all"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_download_filter" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_download_filter"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_webcam" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_webcam"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_default_upload" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_default_upload"/>
+                                    </div>
+ -->
+                                    <div class="text-muted">
+                                        <a href="https://youtu.be/XaFvU2ROQ14" class="oe_link" target="_blank">
+                                            <i class="fa fa-arrow-right"></i> YouTube video of the difference
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                               <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Actions settings</span>
+                                    <div class="text-muted">
+                                        You can setup webcam and other settings
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <label for="am_webcam_width" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_webcam_width"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_webcam_height" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_webcam_height"/>
+                                    </div>
+
+                                    <div class="content-group mt16">
+                                        <label for="am_compress_jpeg" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_compress_jpeg"/>
+                                    </div>
+
+                                    <div class="content-group mt16" attrs="{'invisible': [('am_compress_jpeg', '=', False)]}">
+                                        <label for="am_compress_jpeg_quality" class="col-6 col-lg-6 o_light_label"/>
+                                        <field name="am_compress_jpeg_quality"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </xpath> 
+        </field>
+    </record>
+</odoo>

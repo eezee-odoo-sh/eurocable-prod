@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ADD big attachments (for icons) in discuss and chat-->
+    <!-- <t t-name="mail.MessageSlider" 
+       t-inherit="mail.Message"
+       t-inherit-mode="extension"
+       owl="1">
+        <xpath expr="//AttachmentList" position="attributes">
+            <attribute name="attachmentsImageSize">'small'</attribute>
+            <attribute name="attachmentsDetailsMode">'hover'</attribute>
+        </xpath>
+    </t> -->
+
+</templates>

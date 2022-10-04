@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="category_am_security" model="ir.module.category">
+        <field name="name">Attachments manager</field>
+    </record> -->
+
+    <record id="group_am_delete" model="res.groups">
+        <field name="name">Restrict delete attachments from chatter</field>
+        <!-- <field name="category_id" ref="attachments_manager.category_am_security"/> -->
+    </record>
+
+    <record id="group_am_archive" model="res.groups">
+        <field name="name">Restrict archive attachments from chatter</field>
+        <!-- <field name="category_id" ref="attachments_manager.category_am_security"/> -->
+    </record>
+</odoo>

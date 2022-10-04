@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mail.AttachmentFavoritesDialog" owl="1">
+        <Dialog contentClass="'o_AttachmentQrcodeDialog'" title="getTitle()" size="'large'" t-ref="dialog">
+            <p class="o_AttachmentQrcodeDialog_mainText" t-esc="getBody()"/>
+
+            <t t-set-slot="buttons">
+
+                <t t-if="thread and thread.allAttachments.length > 0">
+                    <AttachmentList
+                        class="o_attachmentBox_attachmentList"
+                        attachmentLocalIds="thread.allAttachments.map(attachment => attachment.localId)"
+                        t-on-o-attachment-removed="_onAttachmentRemoved"
+                    />
+                </t>
+
+                <button class="o_AttachmentQrcodeDialog_cancelButton btn btn-secondary" t-on-click="_onClickCancel">Close</button>
+
+            </t>
+        </Dialog>
+    </t>
+</templates>

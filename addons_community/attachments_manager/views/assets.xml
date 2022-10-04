@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="attachments_manager_assets" inherit_id="web.assets_backend" name="attachments_manager assets">
+            <xpath expr="." position="inside">
+
+                <link type="text/css" href="/attachments_manager/static/src/libs/tui/tui-color-picker.css" rel="stylesheet"/>
+                <link rel="stylesheet" href="/attachments_manager/static/src/libs/tui/tui.image-editor-3.7.2/dist/tui-image-editor.css" />
+
+                <link rel="stylesheet" href="/attachments_manager/static/src/libs/jQuery-contextMenu/jquery.contextMenu.min.css" />
+				<script type="text/javascript" src="/attachments_manager/static/src/libs/jQuery-contextMenu/jquery.contextMenu.js"></script>
+				<script type="text/javascript" src="/attachments_manager/static/src/libs/jQuery-contextMenu/jquery.ui.position.js"></script>
+                
+<!--                 <script type="text/javascript" src="/attachments_manager/static/src/libs/docxtemplater/docxtemplater.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/jszip/jszip.js"></script> -->
+                <!-- DOCX READER -->
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/mammoth/mammoth.browser.min.js"></script>
+                <!-- XLSX REDER -->
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/sheetjs/xlsx.full.min.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/canvas-datagrid/canvas-datagrid.js"></script>
+
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/fabric.min.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/tui-code-snippet.min.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/tui-color-picker.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/FileSaver.min.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/tui.image-editor-3.7.2/dist/tui-image-editor.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/tui.image-editor-3.7.2/examples/js/theme/white-theme.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/tui/tui.image-editor-3.7.2/examples/js/theme/black-theme.js"></script>
+
+                <script src="/attachments_manager/static/src/libs/listjs1.5.0/listjs.js"></script>
+                <link href="/attachments_manager/static/src/css/listjs.css" rel="stylesheet" />
+
+            	<link href="/attachments_manager/static/src/libs/slidebar/slidebars.css" rel="stylesheet"/>
+            	<link href="/attachments_manager/static/src/libs/uppy/uppy.min.css" rel="stylesheet"/>
+            	<link href="/attachments_manager/static/src/css/attachment_dragdrop.css" rel="stylesheet" />
+                <link href="/attachments_manager/static/src/libs/highlight/styles/default.css" rel="stylesheet" />
+
+                <script src="/attachments_manager/static/src/libs/qrcode/qrcode.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/webcam.js"></script>
+<!--                 <script src="/attachments_manager/static/src/libs/highlight/highlight.pack.js"></script>
+                <script src="/attachments_manager/static/src/libs/visualizer/visualizer.js"></script>
+				<script src="/attachments_manager/static/src/libs/uppy/uppy.min.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/libs/selection/selection.min.js"></script>
+ -->
+                
+                <script type="text/javascript" src="/attachments_manager/static/src/components/thread_custom/thread_custom.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_qrcode/attachment_qrcode.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_webcam/attachment_webcam.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_slider/attachment_slider.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_custom/attachment_custom.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/file_uploader_custom/file_uploader.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_box_custom/attachment_box_custom.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_box_favorites/attachment_box_favorites.js"></script>
+                <script type="text/javascript" src="/attachments_manager/static/src/components/attachment_list_custom/attachment_list_custom.js"></script>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

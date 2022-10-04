@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="attachments_center_assets" inherit_id="web.assets_backend" name="attachments_center assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/attachments_center/static/src/js/webKanbanRecord.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

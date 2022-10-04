@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <div t-name="DocxPreview" id="DocxPreview">
+        <h1>Filename: <t t-esc="widget.filename"/>
+        </h1>
+        <page size="A4">
+            <div style="margin: 20px; width: auto;" id="docx">
+                <t t-raw="widget.html"/>
+            </div>
+        </page>
+    </div>
+    <div t-name="XlsxPreview" id="XlsxPreview">
+        <h1>Filename: <t t-esc="widget.filename"/>
+        </h1>
+        <div style="margin: 20px; width: auto;" id="xlsx">
+        </div>
+    </div>
+    <t t-name="mail.AttachmentSlider" t-inherit="mail.AttachmentCard" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[contains(@class,'o_AttachmentCard')]" position="attributes">
+            <attribute name="class">o_AttachmentCard d-flex</attribute>
+        </xpath>
+        <!-- ADD sidebar on click attachment (instead preview or nothing)-->
+        <!-- <xpath expr="//t[@t-if='attachmentCard']/div[1]" position="attributes">
+            <attribute name="t-on-click">toggleSidebar</attribute>
+        </xpath> -->
+        <xpath expr="//div[contains(@class,'o_AttachmentCard_details')]" position="replace"/>
+        <!-- <xpath expr="//div[contains(@class,'o_AttachmentCard_aside')]" position="replace"/> -->
+
+        <!-- <xpath expr="//div[@class='o_AttachmentCard_image o_image']" position="inside">
+                        <div class="o_Attachment_imageOverlay">
+                                                    <div class="o_Attachment_details o_Attachment_imageOverlayDetails">
+                                <t t-if="props.showFilename">
+                                    <div class="o_Attachment_filename">
+                                        <t t-esc="attachment.displayName"/>
+                                    </div>
+                                </t>
+                                <t t-if="props.showExtension">
+                                    <div class="o_Attachment_extension">
+                                        <t t-esc="attachment.extension"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="o_Attachment_actions">
+                                
+                                <t t-if="props.isEditable" t-key="'unlink'">
+                                    <div class="o_Attachment_action o_Attachment_actionUnlink" t-att-class="{
+                                            'o-pretty': attachment.isLinkedToComposer,
+                                        }" t-on-click="_onClickUnlink" title="Remove">
+                                        <i class="fa fa-times"/>
+                                    </div>
+                                </t>
+                                
+                                <t t-if="props.isDownloadable and !attachment.isTemporary" t-key="'download'">
+                                    <div class="o_Attachment_action o_Attachment_actionDownload" t-on-click="_onClickDownload" title="Download">
+                                        <i class="fa fa-download"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+        </xpath> -->
+        <xpath expr="//div[@class='o_AttachmentCard_image o_image']" position="attributes">
+            <attribute name="t-att-style">state.magicPreviewId ? imageStyle.split(')')[0] +'?unique='+ state.magicPreviewId+')' +imageStyle.split(')')[1] : imageStyle</attribute>
+            <attribute name="t-att-class">{
+                        'o-details-overlay': props.detailsMode !== 'card',
+                        'o-large': props.imageSize === 'large',
+                        'o-medium': props.imageSize === 'medium',
+                        'o-small': props.imageSize === 'small',
+                    }
+            </attribute>
+
+        </xpath>
+
+        <!-- ADD icons share, like, gdrive, onedrive, dropbox, website_visible-->
+        <xpath expr="//div[contains(@class,'o_AttachmentCard_image')]" position="after">
+            <t t-if="state.hasDcoxDialog">
+                <Dialog contentClass="'o_AttachmentDeleteConfirmDialog'" size="'large'" t-ref="docx">
+                    <t t-if="state.attachment">
+                        <h1>Filename: <t t-esc="state.attachment.name"/>
+                        </h1>
+                        <page size="A4">
+                            <div style="margin: 20px; width: auto;" id="docx">
+                                <t t-raw="state.hasDcoxDialog.html"/>
+                            </div>
+                        </page>
+                    </t>
+                    <t t-set-slot="buttons">
+                        <button class="o_AttachmentDeleteConfirmDialog_confirmButton btn btn-primary" t-on-click="_onDocxDialogClosed">Ok</button>
+                    </t>
+                </Dialog>
+            </t>
+            <t t-if="state.hasXlsxDialog">
+                <Dialog contentClass="'o_AttachmentDeleteConfirmDialog'" size="'large'" t-ref="xlsx">
+                    <t t-if="state.attachment">
+                        <h1>Filename: <t t-esc="state.attachment.name"/>
+                        </h1>
+                        <div style="margin: 20px; width: auto;" id="xlsx">
+                        </div>
+                    </t>
+                    <t t-set-slot="buttons">
+                        <button class="o_AttachmentDeleteConfirmDialog_confirmButton btn btn-primary" t-on-click="_onXlsxDialogClosed">Ok</button>
+                    </t>
+                </Dialog>
+            </t>
+            <t t-if="env.session.am_kanban_info">
+                <div class="AttachmentKanbanInfo" style="display:flex;flex-direction: column;max-width: 150px;min-width: 150px;overflow: hidden;white-space: nowrap;" t-on-click="toggleSidebar">
+                    <div class="o_field_many2one_avatar o_clickable_m2o_avatar o_field_widget">
+                        <img t-attf-src="/web/image/res.users/{{attachment.create_uid ? attachment.create_uid[0] : 0}}/image_128" class="o_m2o_avatar"/>
+                        <t t-if="attachment.create_uid">
+                            <span>
+                                <t t-esc='attachment.create_uid[1]'/>
+                            </span>
+                        </t>
+                    </div>
+                    <span>
+                        <t t-esc="attachment.name"/>
+                    </span>
+                    <span>
+                        <t t-esc='attachment.file_size'/>
+                    </span>
+                    <span>
+                        <t t-esc='attachment.create_date'/>
+                    </span>
+                    <div style="margin-top:5px;display: flex;flex-direction: row-reverse;">
+                        <t t-if="attachment.public or attachment.type === 'url'">
+                            <span style="position: inherit;" class="fa fa-1x fa-chain attachments-manager-public"/>
+                        </t>
+                        <t t-if="attachment.url and attachment.url.indexOf('google.com') != -1">
+                            <span class="fa fa-1x fa-chain attachments-manager-public" style="color: transparent;position: inherit;right:30px;background-image: url(/attachments_manager/static/description/gdrive.svg); background-repeat: no-repeat;background-color: transparent;"/>
+                        </t>
+                        <t t-if="attachment.url and attachment.url.indexOf('1drv.ms') != -1">
+                            <span class="fa fa-1x fa-chain attachments-manager-public" style="color: transparent;position: inherit;right:30px;background-image: url(/attachments_manager/static/description/onedrive.svg); background-repeat: no-repeat;background-color: transparent;"/>
+                        </t>
+                        <t t-if="attachment.url and attachment.url.indexOf('dropbox.com') != -1">
+                            <span class="fa fa-1x fa-chain attachments-manager-public" style="color: transparent;position: inherit;right:30px;background-image: url(/attachments_manager/static/description/dropbox.svg); background-repeat: no-repeat;background-color: transparent;"/>
+                        </t>
+                        <t t-if="attachment.is_favorite">
+                            <span class="fa fa-1x fa-heart attachments-manager-public" style="position: inherit;top: 0px;color: red;font-size: 20px;background-color: transparent;opacity:0.8"/>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[contains(@class,'o_AttachmentCard_image o_image')]" position="before">
+            <t t-if="attachment.tag_ids">
+                <t t-foreach="attachment.tag_ids" t-as="tag" t-key="attachment.id">
+                    <a class="o_field_many2manytags o_field_widget d-flex mt-auto" style="position:absolute;">
+                        <div t-attf-class="badge badge-pill o_tag_color_{{(tag[0] % 11) + 1}}">
+                            <b>
+                                <span class="o_badge_text">
+                                    <t t-esc="tag[1]"/>
+                                </span>
+                            </b>
+                        </div>
+                    </a>
+                </t>
+            </t>
+
+            <t t-if="!env.session.am_kanban_info">
+                <t t-if="attachment.public or attachment.type === 'url'">
+                    <span class="fa fa-1x fa-chain attachments-manager-public"/>
+                </t>
+                <t t-if="attachment.url and attachment.url.indexOf('google.com') != -1">
+                    <span class="fa fa-1x attachments-manager-public" style="right:30px;background-image: url(/attachments_manager/static/description/gdrive.svg); background-repeat: no-repeat;background-color: transparent;"/>
+                </t>
+                <t t-if="attachment.url and attachment.url.indexOf('1drv.ms') != -1">
+                    <span class="fa fa-1x attachments-manager-public" style="right:30px;background-image: url(/attachments_manager/static/description/onedrive.svg); background-repeat: no-repeat;background-color: transparent;"/>
+                </t>
+                <t t-if="attachment.url and attachment.url.indexOf('dropbox.com') != -1">
+                    <span class="fa fa-1x attachments-manager-public" style="right:30px;background-image: url(/attachments_manager/static/description/dropbox.svg); background-repeat: no-repeat;background-color: transparent;"/>
+                </t>
+                <t t-if="attachment.is_favorite">
+                    <span class="fa fa-1x fa-heart attachments-manager-public" style="top: 0px;color: red;font-size: 20px;background-color: transparent;opacity:0.8"/>
+                </t>
+            </t>
+            <!--                 <t t-if='widget'>
+                    <t t-if="widget.currentResModel == 'product.product' || widget.currentResModel == 'product.template'">
+                        <t t-if="attachment.website_visible">
+                             <span class="fa fa-1x fa-globe attachments-manager-public" style="left:0;color: #00A09D;font-size: 20px;background-color: transparent"/>
+                        </t>
+                    </t>
+                </t> -->
+        </xpath>
+
+        <xpath expr="//div[contains(@class,'o_AttachmentCard')]" position="inside">
+
+            <t t-if="state.urlPreview">
+                <div class="split-am right-am">
+                    <div class="centered-am">
+                        <a class="close-button-split-am" href="#" t-on-click="_onCloseSplitScreenPreview">Close</a>
+                        <iframe t-att-src="state.urlPreview" style="width:100%;height:100%"></iframe>
+                    </div>
+                </div>
+            </t>
+
+            <t t-if="state.hasQrcodeDialog">
+                <AttachmentQrcodeDialog attachmentLocalId="props.attachmentLocalId" t-on-dialog-closed="_onQrcodeDialogClosed" />
+            </t>
+            <AttachmentSidebar t-if="state and state.attachment" attachment="state.attachment" t-on-toggle-sidebar="toggleSidebar">
+                <t t-set-slot="exportGdrive">
+                    <t t-if="_onExportGdrive and state.attachment.type !== 'url'">
+                        <div class="demo-block" t-on-click="_onExportGdrive">
+                            <div class="demo-icon">
+                                <span class="fa fa-cloud-upload" t-att-title="'Export to gdrive ' + state.attachment.name"></span>
+                            </div>
+                            <p class="demo-text">Export to Gdrive</p>
+                        </div>
+                    </t>
+                </t>
+                <t t-set-slot="importOdoo">
+                    <!-- <t t-if="props.importFromFavoritesEnable">
+                        <div class="demo-block" t-on-click="_onAddCurrentRecordAM">
+                                <div class="demo-icon">
+                                    <span class="fa fa-long-arrow-left" t-att-title="'Import ' + state.attachment.name"></span>
+                                </div>
+                                <p class="demo-text">Import Odoo Favorites</p>
+                        </div>
+                    </t> -->
+                </t>
+                <t t-set-slot="edit">
+                    <div class="demo-block" t-on-click="_onEditAttachment">
+                        <div class="demo-icon">
+                            <span class="fa fa-edit" t-att-title="'Edit ' + state.attachment.name"></span>
+                        </div>
+                        <p class="demo-text">Edit</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="close">
+                    <div class="demo-block" t-on-click="toggleSidebar">
+                        <div class="demo-icon">
+                            <span class="fa fa-arrow-down" t-att-title="'Close menu ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Close</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="editMagic">
+                    <t t-if="state.attachment.mimetype.split('/')[0] == 'image'  and !state.mobile and state.attachment.type !== 'url'">
+                        <div class="demo-block" t-on-click="_onMagicEditAttachment">
+                            <div class="demo-icon">
+                                <span class="fa fa-magic" t-att-title="'Magic edit ' + state.attachment.name"></span>
+                            </div>
+                            <p class="demo-text">Magic edit</p>
+                        </div>
+                    </t>
+                </t>
+
+                <t t-set-slot="download">
+                    <div class="demo-block" t-on-click="_onClickDownload">
+                        <div class="demo-icon">
+                            <span class="fa fa-download" t-att-title="'Download ' + state.attachment.name"></span>
+                        </div>
+                        <p class="demo-text">Download</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="delete">
+                    <div class="demo-block" t-on-click="_onClickUnlink">
+                        <div class="demo-icon">
+                            <span class="fa fa-times" t-att-title="'Delete ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Delete</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="previewOfflain">
+                    <div class="demo-block" t-on-click="_onClickImage">
+                        <div class="demo-icon">
+                            <span class="fa fa-eye" t-att-title="'Preview Offlain ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Preview Offline</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="previewMicrosoftGoogle">
+                    <!-- <t t-if="state.attachment.public or state.attachment.type !='binary'"> -->
+                    <div class="demo-block" t-on-click="_onPreviewMSAttachment">
+                        <div class="demo-icon">
+                            <span class="fa fa-windows" t-att-title="'Preview MS ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Preview MS</p>
+                    </div>
+
+                    <div class="demo-block">
+                        <div class="demo-icon" t-on-click="_onPreviewGoogleAttachment">
+                            <span class="fa fa-google" t-att-title="'Preview Google ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Preview Google</p>
+                    </div>
+                    <!-- </t> -->
+                </t>
+
+                <t t-set-slot="share">
+                    <t t-if="state.attachment.public">
+                        <div class="demo-block" t-on-click="_onShareAttachment">
+                            <div class="demo-icon">
+                                <span class="fa fa-share-alt-square" t-att-title="'Un Share ' + state.attachment.name"></span>
+                            </div>
+
+                            <p class="demo-text">Un Share</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="demo-block" t-on-click="_onShareAttachment">
+                            <div class="demo-icon">
+                                <span class="fa fa-share-alt" t-att-title="'Share ' + state.attachment.name"></span>
+                            </div>
+
+                            <p class="demo-text">Share</p>
+                        </div>
+                    </t>
+                </t>
+
+                <t t-set-slot="copy">
+                    <div class="demo-block" t-on-click="_onCopyLink">
+                        <div class="demo-icon">
+                            <span class="fa fa-chain" t-att-title="'Copy link ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Copy</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="qrcode">
+                    <div class="demo-block" t-on-click="_onQRcode">
+                        <div class="demo-icon">
+                            <span class="fa fa-qrcode" t-att-title="'Get QRcode ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">QRcode</p>
+                    </div>
+                </t>
+
+                <t t-set-slot="favorite">
+                    <t t-if="!state.attachment.is_favorite">
+                        <div class="demo-block" t-on-click="_onLike">
+                            <div class="demo-icon">
+                                <span class="fa fa-heart" t-att-title="'Like ' + state.attachment.name"></span>
+                            </div>
+
+                            <p class="demo-text">Like</p>
+                        </div>
+                    </t>
+
+                    <t t-else="">
+                        <div class="demo-block" t-on-click="_onUnlike">
+                            <div class="demo-icon">
+                                <span class="fa fa-heart-o o_attachment_unlike_cross" t-att-title="'Unlike ' + state.attachment.name"></span>
+                            </div>
+
+                            <p class="demo-text">Unlike</p>
+                        </div>
+                    </t>
+                </t>
+
+                <t t-set-slot="info">
+                    <div class="demo-block">
+                        <div class="demo-icon">
+                            <span class="fa fa-info-circle" t-att-title="'Info ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Info</p>
+                    </div>
+                </t>
+
+                <!--             <t t-if='widget'>
+                <t t-if="widget.currentResModel == 'product.product' || widget.currentResModel == 'product.template'">
+                    <t t-if="!attachment.website_visible">
+                        <div class="demo-block">
+                                <div class="demo-icon">
+                                    <span class="fa fa-globe o_attachment_website_cross" t-att-title="'Website visible' + attachment.name" t-att-data-id="attachment.id" t-att-data-name="attachment.name" t-att-data-public="attachment.public" t-att-data-url="attachment.url" t-att-data-website_visible="attachment.website_visible"></span>
+                                </div>
+
+                                <p class="demo-text">Website visible</p>
+                        </div>
+                    </t>
+
+                    <t t-else="">
+                        <div class="demo-block">
+                                <div class="demo-icon">
+                                    <span class="fa fa-lock o_attachment_website_cross" t-att-title="'Website unvisible ' + attachment.name" t-att-data-id="attachment.id" t-att-data-name="attachment.name" t-att-data-public="attachment.public" t-att-data-url="attachment.url" t-att-data-website_visible="attachment.website_visible"></span>
+                                </div>
+
+                                <p class="demo-text">Website unvisible</p>
+                        </div>
+                    </t>
+                </t>
+            </t> -->
+
+                <t t-set-slot="newtab">
+                    <div class="demo-block" t-on-click="_onOpenNewTab">
+                        <div class="demo-icon">
+                            <span class="fa fa-external-link" t-att-title="'Open new tab ' + state.attachment.name"></span>
+                        </div>
+
+                        <p class="demo-text">Open new tab</p>
+                    </div>
+                </t>
+
+            </AttachmentSidebar>
+        </xpath>
+    </t>
+</templates>

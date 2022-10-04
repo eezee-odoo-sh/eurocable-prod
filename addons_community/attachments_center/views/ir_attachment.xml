@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_attachment_center_form" model="ir.ui.view">
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <form string="Attachments">
+                   <sheet>
+                   <div class="oe_button_box" name="button_box">
+                        <widget
+                            name="web_ribbon"
+                            title="Archived"
+                            bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"
+                        />
+                   </div>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="type"/>
+                            <field name="datas" filename="name" attrs="{'invisible':[('type','=','url')]}"/>
+                            <field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
+                            <field name="mimetype"/>
+                        </group>
+                        <group string="Attached To">
+                            <field name="res_model"/>
+                            <field name="res_field"/>
+                            <field name="res_id"/>
+                            <field name="res_name"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="public"/>
+                        </group>
+                        <group string="History" attrs="{'invisible':[('create_date','=',False)]}">
+                            <label for="create_uid" string="Creation"/>
+                            <div name="creation_div">
+                                <field name="create_uid" readonly="1" class="oe_inline"/> on
+                                <field name="create_date" readonly="1" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group name="description_group" string="Description" groups="base.group_no_one"  colspan="4">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <group groups="base.group_no_one" string="Indexed Content" colspan="4">
+                            <field name="index_content" nolabel="1"/>
+                        </group>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_ir_attachment_tree_center">
+            <field name="name">ir.attachment.tree.center</field>
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <tree string="Attachments center">
+                    <field name="name"/>
+                    <field name="datas" filename="name" attrs="{'invisible':[('type','=','url')]}"/>
+                    <field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
+                    <field name="mimetype"/>
+                    <field name="res_model"/>
+                    <field name="res_field"/>
+                    <field name="res_id"/>
+                    <field name="type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_document_file_kanban_center">
+            <field name="name">ir.attachment kanban.canter</field>
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <kanban class="o_attachments_center_attendance_kanban" edit="false" import="false">
+                    <field name="id"/>
+                    <field name="res_id"/>
+                    <field name="res_model"/>
+                    <field name="mimetype"/>
+                    <field name="type"/>
+                    <field name="create_uid"/>
+                    <field name="url"/>
+                    <field name="create_date"/>
+                    <field name="name"/>
+                    <field name="tag_ids"/>
+                    <field name="category_id"/>
+                    <field name="public"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_area oe_kanban_global_click o_kanban_attachment">
+                                <div class="row">
+                                    <div class="offset-10">
+                                        <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                                            <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                                <span class="fa fa-ellipsis-v"/>
+                                            </a>
+                                            <div class="dropdown-menu" role="menu">
+                                                <h6 class="dropdown-header">
+                                                    Operations
+                                                </h6>
+                                                <a href="#"
+                                                class="dropdown-item on_preview_ms o_inline_link">
+                                                Preview Microsoft
+                                                </a>
+                                                <a href="#"
+                                                class="dropdown-item on_preview_google o_inline_link">
+                                                Preview Google
+                                                </a>
+                                                <a
+                                                    role="menuitem"
+                                                    type="open"
+                                                    class="dropdown-item"
+                                                >
+                                                    <i class="fa fa-external-link" />
+                                                    Open
+                                                </a>
+                                                <a
+                                                    role="menuitem"
+                                                    type="edit"
+                                                    class="dropdown-item"
+                                                >
+                                                    <i class="fa fa-pencil-square-o" />
+                                                    Edit
+                                                </a>
+                                                <a t-if="widget.deletable" role="menuitem" type="delete" class="dropdown-item">
+                                                    <i class="fa fa-trash-o" />
+                                                    Delete
+                                                </a>
+                                                <t t-if="record.res_id.raw_value">
+                                                    <a
+                                                    role="menuitem"
+                                                    class="dropdown-item"
+                                                    t-attf-href="/web#id=#{record.res_id.raw_value}&amp;model=#{record.res_model.raw_value}"
+                                                    >
+                                                        <i class="fa fa-folder-open" />
+                                                        Open record
+                                                    </a>
+                                                </t>
+                                                <a
+                                                role="menuitem"
+                                                class="dropdown-item"
+                                                t-attf-href="/web/content?id=#{record.id.raw_value}&amp;download=true"
+                                                >
+                                                    <i class="fa fa-download" />
+                                                    Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_image">
+                                    <div class="o_kanban_image_wrapper">
+                                        <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+                                        <div t-if="record.type.raw_value == 'url'" class="o_url_image fa fa-link fa-3x text-muted" aria-label="Image is a link"/>
+                                        <img t-elif="webimage" t-attf-src="/web/image/#{record.id.raw_value}" width="100" height="100" alt="Document" class="o_attachment_image"/>
+                                        <div t-else="!webimage" class="o_image o_image_thumbnail" t-att-data-mimetype="record.mimetype.value"/>
+                                    </div>
+                                    <t t-if="record.res_id.raw_value">
+                                        <a
+                                        t-attf-href="/web#id=#{record.res_id.raw_value}&amp;model=#{record.res_model.raw_value}"
+                                        >
+                                            <i class="fa fa-folder-open" />
+                                            Open related record
+                                        </a>
+                                    </t>
+                                </div>
+                                <div class="o_kanban_details">
+                                    <div class="o_kanban_details_wrapper">
+                                        <field name="tag_ids"/>
+                                        <field name="category_id"/>
+                                        <div t-att-title="record.name.raw_value" class="o_kanban_record_title">
+                                            <field name="name" class="o_text_overflow"/>
+                                        </div>
+                                        <div class="o_kanban_record_body">
+                                            <t t-if="record.type.raw_value == 'url'">
+                                                <span class="o_document_url"><i class="fa fa-globe" aria-label="Document url"/> <field name="url" widget="url"/></span>
+                                            </t>
+                                            <samp t-else="" class="text-muted"> </samp>
+                                        </div>
+                                        <div class="o_kanban_record_bottom">
+                                            <time class="oe_kanban_bottom_left">
+                                                <field name="create_date" widget="date"/>
+                                            </time>
+                                            <div class="oe_kanban_bottom_right">
+                                                <field name="create_uid" widget="many2one_avatar_user"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="ir_attachment_searchpamel_search_inherit" model="ir.ui.view">
+            <field name="name">ir.attachment.search.searchpanel</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter
+                        string="Hide system"
+                        name="hide_system"
+                        domain="[('res_model','!=','ir.ui.view'),('res_model','!=',False),('res_model','!=','ir.module.module')]"
+                    />
+                    <filter
+                        string="Creation Date"
+                        name="filter_create"
+                        date="create_date"
+                    />
+                    <filter
+                        string="Modification Date"
+                        name="filter_write"
+                        date="write_date"
+                    />
+                    <separator />
+                    <filter
+                        string="Archived"
+                        name="inactive"
+                        domain="[('active','=',False)]"
+                    />
+                    <searchpanel view_types="tree,kanban,search">
+                        <field name="category_id" icon="fa-folder" enable_counters="1" expand="1"/>
+                        <field
+                            name="tag_ids"
+                            select="multi"
+                            icon="fa-tag"
+                        />
+                    </searchpanel>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="attachments_center.action_attachments" model="ir.actions.act_window">
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="res_model">ir.attachment</field>
+            <field name="context">{"search_default_hide_system":1}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_document_file_kanban_center')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_attachment_center_form')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_ir_attachment_tree_center')})]" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Attach a new document
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

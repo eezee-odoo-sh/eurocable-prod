@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+accessattachments_manager_category_admin,attachments_manager_category_admin,model_ir_attachment_category,attachments_center.group_dms_manager,1,1,1,1
+accessattachments_manager_category_user,attachments_manager_category_user,model_ir_attachment_category,,1,1,1,0
+accessattachments_manager_tag,attachments_manager_tag,model_ir_attachment_tag,,1,1,1,1
+accessattachments_manager_wizard,attachments_manager_wizard,model_ir_attachment_wizard,attachments_center.group_dms_manager,1,1,1,1

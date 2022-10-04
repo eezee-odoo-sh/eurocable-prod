@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mail.AttachmentListCustom" 
+       t-inherit="mail.AttachmentList"
+       t-inherit-mode="extension"
+       owl="1">
+       <!-- change attachments view in chatter -->
+       <xpath expr="//AttachmentCard" position="attributes">
+            <attribute name="imageSize">'small'</attribute>
+            <attribute name="detailsMode">'hover'</attribute>
+        </xpath>
+    </t>
+</templates>

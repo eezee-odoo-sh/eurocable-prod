@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mail.AttachmentBoxCustom"
+       t-inherit="mail.AttachmentBox"
+       t-inherit-mode="extension"
+       owl="1">
+        <xpath expr="//div[@class='o_AttachmentBox_title']" position="before">
+
+            <!-- views menu -->
+            <nav class="btn-group o_cp_switch_buttons" style="float:right;z-index:1;padding-top:10px">
+              <t t-if="state.inputHidden">
+                    <button class="btn btn-secondary fa fa-lg fa-search o_cp_switch_kanban"
+                    t-on-click="toggleInput" title="Tag search"  type="button"></button>   
+              </t>
+              <t t-else="">
+                <input class="form-control col-6" type="text" t-on-input="_onFilterTagThread" title="Filter tag"
+                placeholder="Filter tag..."/>
+                <button class="btn btn-secondary fa fa-lg fa-chevron-right o_cp_switch_kanban"
+                    t-on-click="toggleInput" title="Tag search"  type="button"></button>  
+              </t>
+              <button t-on-click="_onRefreshThread" class="btn btn-secondary fa fa-lg fa-refresh o_cp_refresh am-control-btn-right " title="Refresh" type="button"></button>
+              <button class="btn btn-secondary fa fa-lg fa-th-large o_cp_switch_kanban active" title="View kanban"  type="button"></button>   
+              <button class="btn btn-secondary fa fa-lg fa-list-ul o_cp_switch_list" title="View list" type="button"></button>
+            </nav>
+
+            <!-- control buttons -->
+            <div class="o_control_panel">
+                <div class="o_cp_left">
+                    <div class="o_cp_buttons">
+                        <div class="o_list_buttons">
+                            <button t-ref="am-new" class='btn btn-primary btn-sm am-control-btn-left oe_button_control_new' title="Upload new files(file)" type="button">
+                                <i class="fa fa-plus"/></button>
+                            <!-- <button t-on-click="_openFavorites" class='btn btn-primary btn-sm am-control-btn-left' title="Import from favoriste" type="button">
+                                <i class="fa fa-star"/></button> -->
+                            <button t-on-click="_onDownloadAll" class='btn btn-primary btn-sm am-control-btn-left' title="Download All" type="button">
+                                <i class="fa fa-download"/></button>
+                            <!-- <button t-on-click="_openAttachmentManagerPublic" class='btn btn-primary btn-sm am-control-btn-left' title="All Public" type="button">
+                                <i class="fa fa-group"/></button> -->
+                            <button t-on-click="_openAttachmentManager" class='btn btn-primary btn-sm am-control-btn-left' title="Manage" type="button">
+                                <i class="fa fa-copy"/></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <t t-if="state.toogleScreencastBar">
+            <div style="display: flex;flex-direction: column;position: fixed;top: 0; right:0;align-items: center;
+        justify-content: center;z-index: 9999;background: whitesmoke;widht:50%">
+                <h1>Screen Recording App</h1>
+                <div style="display:flex;flex-wrap: wrap;width: 50%;">
+                    <a t-att-style="videoBlob ? 'flex:1' : 'flex:1;display:none'" t-ref="linkRef">Download</a>
+                    <button style="flex:1" t-on-click="startStopButton" t-att-disabled="!voiceStream" t-att-class="!state.recording ? 'btn btn-success' : 'btn btn-danger'">
+                        <t t-if="!state.recording">
+                                    Start
+                        </t>
+                        <t t-else="">
+                                    Stop
+                        </t>
+                    </button>
+                    <button style="flex:1" class="btn btn-secondary" t-on-click="closeButton">Close</button>
+                    <button t-att-style="videoBlob ? 'flex:1' : 'flex:1;display:none'" class="btn btn-secondary" t-on-click="saveButton">Save</button>
+                </div>
+                <video t-att-style="videoBlob ? 'width:50%' : 'width:50%;display:none'" controls="controls" t-ref="videoRef"></video>
+            </div>
+        </t>
+
+          <t t-if="state.hasWebcamDialog" snapshot="state.snapshot">
+            <AttachmentWebcamDialog
+              webcamRear="webcamRear"
+              t-on-dialog-file="_onWebcamCallback"
+              t-on-dialog-closed="_onWebcamClosed"/>
+          </t>
+
+          <t t-if="state.hasFavoritesDialog">
+            <Dialog contentClass="'o_AttachmentQrcodeDialog'" size="'large'" title="'Attachments manager favorites'" t-ref="dialog">
+                <p class="o_AttachmentQrcodeDialog_mainText">You can import file(files) in current record</p>
+                <t t-set-slot="buttons">
+                        <AttachmentList
+                            class="o_attachmentBox_attachmentList"
+                            attachmentLocalIds="state.attachments_favorite"
+                            t-on-o-attachment-removed="_onAttachmentRemoved"
+                        />
+                    <button class="o_AttachmentQrcodeDialog_cancelButton btn btn-secondary" t-on-click="_onFavoritesClosed">Close</button>
+                </t>
+            </Dialog>
+          </t>
+        </xpath>
+    </t>
+
+</templates>

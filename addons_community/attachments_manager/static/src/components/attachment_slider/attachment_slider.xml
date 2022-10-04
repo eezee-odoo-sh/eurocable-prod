@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="attachments_manager.AttachmentSidebar" owl="1">
+        <div off-canvas="id-4 bottom overlay" t-attf-class="demos-menu {{ props.attachment ? 'am_sidebar_show' : 'am_sidebar_hide' }}">         
+            <div style="color: white;display:inline-block;margin-left: 10px;">
+                <div>
+                    Name: 
+                    <t t-esc="props.attachment.name"/>
+                </div>
+
+                <div>
+                    Size: 
+                    <b>
+                        <t t-esc='props.attachment.file_size'/>
+                    </b>
+                </div>
+
+                <div>
+                    Author:
+                    <t t-if="props.attachment.create_uid">
+                        <t t-esc='props.attachment.create_uid[1]'/>
+                    </t>
+                </div>
+
+                <div>
+                    Date:
+                    <t t-esc='props.attachment.create_date'/>
+                </div>
+            </div>
+
+            <t t-slot="close"/>
+            <t t-slot="exportGdrive"/>
+            <t t-slot="importOdoo"/>
+            <t t-slot="edit"/>
+            <t t-slot="editMagic"/>
+            <t t-slot="download"/>
+            <t t-slot="delete"/>
+            <t t-slot="previewOfflain"/>
+            <t t-slot="previewMicrosoftGoogle"/>
+            <t t-slot="newtab"/>
+            <t t-slot="share"/>
+            <t t-slot="favorite"/>
+            <t t-slot="copy"/>
+            <t t-slot="qrcode"/>
+            <t t-slot="info"/>
+        </div>
+    </t>
+
+</templates>

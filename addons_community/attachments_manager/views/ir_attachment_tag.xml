@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ir_attachment_tag_form" model="ir.ui.view">
+            <field name="name">ir_attachment.tag.view.form</field>
+            <field name="model">ir.attachment.tag</field>
+            <field name="arch" type="xml">
+                <form string="Attachment Tag">
+                    <group>
+                        <field name="image" widget="image" class="oe_avatar oe_left" nolabel="1"/>
+                    </group>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="parent_id"/>
+                        <field name="child_id"/>
+                        <field name="parent_path"/>
+                    </group>
+                </form>
+            </field>
+        </record>    
+
+        <record id="ir_attachment_tag_tree" model="ir.ui.view">
+            <field name="name">ir_attachment.tag.view.tree</field>
+            <field name="model">ir.attachment.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Attachment Tags">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ir_attachment_tag_search" model="ir.ui.view">
+            <field name="name">ir_attachment.tag.view.search</field>
+            <field name="model">ir.attachment.tag</field>
+            <field name="arch" type="xml">
+                <search string="Tag">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="ir_attachment_tag_action_form" model="ir.actions.act_window">
+            <field name="name">Attachment Tags</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.attachment.tag</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="ir_attachment_tag_search"/>
+            <field name="view_id" ref="ir_attachment_tag_tree"/>
+        </record>
+        <!-- <menuitem action="ir_attachment_tag_action_form"
+            groups="base.group_no_one"
+            id="menu_ir_attachment_tag_action_form"
+            parent="base.next_id_9" sequence="3"/> -->
+    
+        <record id="ir_attachment_tag_search_inherit" model="ir.ui.view">
+            <field name="name">ir_attachment.tag.view.search</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="tag_ids" string="Tags" filter_domain="['|',('tag_ids','ilike',self),('tag_ids','child_of',self)]"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="ir_attachment_tag_form_inherit" model="ir.ui.view">
+            <field name="name">ir_attachment_tag.view.form</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//h1" position="after">
+                    <field name="tag_ids" widget="many2many_tags" placeholder="Tags..."/>
+                </xpath>
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <button string="Send by Email" name="action_attachment_send" type="object" class="oe_highlight"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ir_attachment_manager_form_inherit" model="ir.ui.view">
+            <field name="name">ir_attachment_manager.view.form</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="attachments_center.view_attachment_center_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <button string="Send by Email" name="action_attachment_send" type="object" class="oe_highlight"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+
+        <!--  kanban view   -->
+
+        <record model="ir.ui.view" id="ir_attachment_tag_kanban">
+            <field name="name">Attachment Tag Kanban</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="mail.view_document_file_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="tag_ids" widget="many2many_tags" placeholder="Tags..."/>
+                </xpath>
+                <xpath expr="//div[@class='o_kanban_record_title']" position="inside">
+                    <field name="tag_ids" widget="many2many_tags" placeholder="Tags..."/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
