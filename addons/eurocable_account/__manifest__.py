@@ -17,6 +17,7 @@
         'views/account_financial_report.xml',
         'views/report_financial.xml',
         'views/account_move.xml',
+        'views/report_invoice.xml',
     ],
     "installable": True,
 }
