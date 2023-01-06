@@ -6,10 +6,11 @@
         </xpath>
         <xpath expr="//td[3]" position="before">
             <td class="text-right">
-                <span t-field="line.intrastat_id"/>
+                <span t-field="line.intrastat_id.code"/>
             </td>
         </xpath>
         <xpath expr="//t[@t-set='address']" position="before">
+            <h1>Deliver-to Address</h1>
            <address t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
         </xpath>
     </template>
