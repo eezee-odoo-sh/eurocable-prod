@@ -13,6 +13,7 @@
     ],
     'data': [
         "views/account_move_line_view.xml",
+        "views/account_fiscal_position.xml",
         "views/intrastat_report.xml",
         'views/account_financial_report.xml',
         'views/report_financial.xml',
